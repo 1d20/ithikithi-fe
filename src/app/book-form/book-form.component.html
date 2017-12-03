@@ -1,0 +1,48 @@
+<form #bookForm="ngForm">
+  <div class="row">
+    <div class="form-group col-md-6">
+      <label for="from">From</label>
+      <div class="input-group">
+        <input type="text" name="from" [(ngModel)]="model.from" class="form-control" id="from" required>
+        <button class="input-group-addon cursor-pointer" (click)="model.replace()" type="button">
+          <i class="fa fa-arrows-h" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="form-group col-md-6">
+      <label for="to">To</label>
+      <input type="text" name="to" [(ngModel)]="model.to" class="form-control" id="to" required>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="form-group col-md-6">
+      <label for="date">Departure Date</label>
+      <div class="input-group">
+        <input
+          class="form-control"
+          placeholder="dd.mm.yyyy"
+          name="date"
+          id="date"
+          [(ngModel)]="model.date"
+          [minDate]="minDate"
+          [maxDate]="maxDate"
+          navigation="arrows"
+          ngbDatepicker
+          #d="ngbDatepicker"
+        >
+        <button class="input-group-addon cursor-pointer" (click)="d.toggle()" type="button">
+          <i class="fa fa-calendar" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="form-group col-md-6">
+      <label for="time">Departure time after</label>
+      <ngb-timepicker name="time" [(ngModel)]="model.time" id="time" [spinners]="false"></ngb-timepicker>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-block">Book</button>
+  </div>
+</form>
