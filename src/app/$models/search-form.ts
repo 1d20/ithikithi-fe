@@ -1,6 +1,6 @@
 import { NgbDateStruct, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 
-export class Booking {
+export class SearchFormData {
   public date: NgbDateStruct;
   public time: NgbTimeStruct;
   public from: string;
