@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../$services/person/auth.service';
+import { AuthService } from '../../$services/person/auth.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { UserRequest } from '../$models/person';
+import { UserRequest } from '../../$models/person';
 
 
 
@@ -15,8 +15,8 @@ export class AuthComponent implements OnInit {
 
   constructor(private authService: AuthService, private modalService: NgbModal) {}
 
-  getBookings(withCredentials: boolean) {
-    this.authService.getBookings(withCredentials);
+  getBookings() {
+    this.authService.getBookings();
   }
 
   signup(body: UserRequest = {email: 'nycheporuk@gmail.com', password: 'qwe'}) {

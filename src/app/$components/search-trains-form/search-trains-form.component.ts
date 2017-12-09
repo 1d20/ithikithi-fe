@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { SearchFormData } from '../$models/search-form';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { SearchFormData } from '../../$models/search-form';
 
 @Component({
   selector: 'app-search-trains-form',
@@ -7,7 +7,7 @@ import { SearchFormData } from '../$models/search-form';
   styleUrls: ['./search-trains-form.component.less']
 })
 export class SearchTrainsFormComponent implements OnInit {
-  model: SearchFormData;
+  private model: SearchFormData;
 
   get minDate() {
     return this.model.transformDateToNgbStruct(new Date(+this.model.now - 1000 * 60 * 60 * 24));
@@ -22,5 +22,4 @@ export class SearchTrainsFormComponent implements OnInit {
   ngOnInit() {
     this.model = new SearchFormData();
   }
-
 }

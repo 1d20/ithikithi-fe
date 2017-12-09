@@ -1,0 +1,3 @@
+<app-search-trains-form (submit)="searchTrains($event)"></app-search-trains-form>
+<img *ngIf="loading" class="loader" src="../../../assets/search-loader.gif" alt="Searching...">
+<app-trains-table *ngIf="!loading && trains.length" [trains]="trains"></app-trains-table>

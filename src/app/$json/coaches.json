@@ -1,0 +1,28 @@
+[
+  {
+    "allow_bonus": false,
+    "coach_class": "2",
+    "coach_type_id": 10,
+    "has_bedding": false,
+    "num": 1,
+    "places_cnt": 21,
+    "prices": {
+      "А": 35831
+    },
+    "reserve_price": 1700,
+    "services": []
+  },
+  {
+    "allow_bonus": false,
+    "coach_class": "2",
+    "coach_type_id": 9,
+    "has_bedding": false,
+    "num": 3,
+    "places_cnt": 21,
+    "prices": {
+      "А": 35831
+    },
+    "reserve_price": 1700,
+    "services": []
+  }
+]

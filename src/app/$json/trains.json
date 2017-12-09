@@ -1,0 +1,62 @@
+[
+  {
+    "category": 1,
+    "model": 1,
+    "num": "743Л",
+    "travel_time": "5:01",
+    "types": [
+      {
+        "letter": "С1",
+        "places": 117,
+        "title": "Seating first class"
+      },
+      {
+        "letter": "С2",
+        "places": 176,
+        "title": "Seating second class"
+      }
+    ],
+    "till": {
+      "station": "Lviv",
+      "station_id": 2218000,
+      "date": 1465759260,
+      "src_date": "2016-06-12 22:21:00"
+    },
+    "from": {
+      "station": "Darnytsya",
+      "station_id": 2200001,
+      "date": 1465741200,
+      "src_date": "2016-06-12 17:20:00"
+    }
+  },
+  {
+    "category": 0,
+    "model": 0,
+    "num": "091К",
+    "travel_time": "7:25",
+    "types": [
+      {
+        "letter": "Л",
+        "places": 11,
+        "title": "Suite / first-class sleeper"
+      },
+      {
+        "letter": "К",
+        "places": 50,
+        "title": "Coupe / coach with compartments"
+      }
+    ],
+    "till": {
+      "station": "Lviv",
+      "station_id": 2218000,
+      "date": 1465787160,
+      "src_date": "2016-06-13 06:06:00"
+    },
+    "from": {
+      "station": "Kyiv-Pasazhyrsky",
+      "station_id": 2200001,
+      "date": 1465760460,
+      "src_date": "2016-06-12 22:41:00"
+    }
+  }
+]

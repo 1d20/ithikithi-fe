@@ -7,11 +7,10 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  getBookings(withCredentials: boolean) {
+  getBookings() {
     this.http.get<any>('booking/booking/', {
-    withCredentials: withCredentials,
-      // headers: new HttpHeaders().set('Authorization')
-  }).subscribe(console.log);
+      withCredentials: true,
+    }).subscribe(console.log);
   }
 
   signUp(body: UserRequest) {
@@ -20,7 +19,7 @@ export class AuthService {
   }
 
   login(body: UserRequest) {
-    return this.http.post('person/authenticate/login/', body, { observe: 'response' });
+    return this.http.post('person/authenticate/login/', body, { observe: 'response', withCredentials: true });
   }
 }
 

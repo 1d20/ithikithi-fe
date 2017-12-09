@@ -1,0 +1,47 @@
+<ngx-datatable
+  class="material"
+  [rows]="rows"
+  [columnMode]="'force'"
+  [headerHeight]="50"
+  [footerHeight]="50"
+  [rowHeight]="'auto'">
+>
+  <ngx-datatable-column name="#" prop="number"></ngx-datatable-column>
+
+  <ngx-datatable-column name="From / Till" prop="station">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <span>{{value.from}}</span>
+      <br>
+      <span>{{value.till}}</span>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Date">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <span>{{value.from | date: 'fullDate'}}</span>
+      <br>
+      <span>{{value.till | date: 'fullDate'}}</span>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Departure / Arrival" prop="date">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <span>{{value.from | date: 'HH:mm'}}</span>
+      <br>
+      <span>{{value.till | date: 'HH:mm'}}</span>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Duration"></ngx-datatable-column>
+
+  <ngx-datatable-column name="Free space">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <div *ngFor="let type of value">
+        <span [title]="type.title">{{type.letter}}</span> - <span>{{type.places}}</span>
+        <button>Pick</button>
+      </div>
+
+    </ng-template>
+  </ngx-datatable-column>
+
+</ngx-datatable>
