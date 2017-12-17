@@ -59,24 +59,6 @@
     }
   },
   "defaults": {
-    "styleExt": "less",
-    "component": {
-      "spec": false
-    },
-    "service": {
-      "spec": false
-    },
-    "directive": {
-      "spec": false
-    },
-    "class": {
-      "spec": false
-    },
-    "module": {
-      "spec": false
-    },
-    "pipe": {
-      "spec": false
-    }
+    "styleExt": "less"
   }
 }

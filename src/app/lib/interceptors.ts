@@ -1,14 +1,25 @@
 import { Injectable } from '@angular/core';
-import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
+import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
 
-// const API_URI = 'http://192.168.0.103:8000/api/';
-const API_URI = 'http://18.216.38.56:8000/api/';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class UrlInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log(req.clone({url: API_URI + req.url}))
-    return next.handle(req.clone({url: API_URI + req.url}));
+    return next.handle(req.clone({ url: environment.apiUrl + req.url }));
+  }
+}
+
+@Injectable()
+export class CamelCaseInterceptor implements HttpInterceptor {
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    return next.handle(req.clone()).map((event: HttpEvent<any>) => {
+      if (event instanceof HttpResponse) {
+        console.log('event', event);
+      }
+      return event;
+    });
   }
 }

@@ -7,14 +7,18 @@ import { SearchFormData } from '../../$models/search-form';
   styleUrls: ['./search-trains-form.component.less']
 })
 export class SearchTrainsFormComponent implements OnInit {
+  readonly maxDays = 60;
+
   private model: SearchFormData;
 
   get minDate() {
-    return this.model.transformDateToNgbStruct(new Date(+this.model.now - 1000 * 60 * 60 * 24));
+    return { ...this.model.date };
   }
 
   get maxDate() {
-    return this.model.transformDateToNgbStruct(new Date(+this.model.now + 1000 * 60 * 60 * 24 * 60));
+    return this.model.transformDateToNgbStruct(
+      new Date(+this.model.now + 1000 * 60 * 60 * 24 * this.maxDays)
+    );
   }
 
   constructor() { }

@@ -17,4 +17,8 @@ export class UzService {
     // return this.http.get('')
     return Observable.of(trains).delay(100);
   }
+
+  public getBookings() {
+    return this.http.get('bookings/bookings/');
+  }
 }

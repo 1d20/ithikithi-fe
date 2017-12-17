@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { UrlInterceptor } from './lib/interceptors';
+import { CamelCaseInterceptor, UrlInterceptor } from './lib/interceptors';
 
 import { AppRoutingModule } from './app-routing.module';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
@@ -45,6 +45,11 @@ import { TrainsTableComponent } from './$components/trains/trains-table/trains-t
     {
       provide: HTTP_INTERCEPTORS,
       useClass: UrlInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CamelCaseInterceptor,
       multi: true,
     },
     AuthService,

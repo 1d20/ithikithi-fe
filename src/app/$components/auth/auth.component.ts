@@ -4,7 +4,6 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { UserRequest } from '../../$models/person';
 
 
-
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
