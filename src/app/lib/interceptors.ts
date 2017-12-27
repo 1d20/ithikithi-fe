@@ -35,7 +35,7 @@ export class CamelCaseInterceptor implements HttpInterceptor {
   }
 }
 
-function transformObject(object: object, transformFunc: (value: string) => string): object {
+function transformObject(object: object, transformFunc: (value: string) => string): {[name: string]: string}  {
   const newObject = {};
 
   for (const key in object) {
@@ -48,22 +48,20 @@ function transformObject(object: object, transformFunc: (value: string) => strin
   return newObject;
 }
 
-function transformParams(params, transformFunc: (value: string) => string): HttpParams {
-  const newParams = new HttpParams();
+function extractObjectFromMap(map) {
+  const obj = {};
 
-  for (const key of params.keys()) {
-    newParams.set(transformFunc(key), params.get(key));
+  for (const key of map.keys()) {
+    obj[key] = map.get(key);
   }
 
-  return newParams;
+  return obj;
+}
+
+function transformParams(params, transformFunc: (value: string) => string): HttpParams {
+  return new HttpParams({ fromObject: transformObject(extractObjectFromMap(params), transformFunc) });
 }
 
 function transformHeaders(headers: HttpHeaders, transformFunc: (value: string) => string): HttpHeaders {
-  const newHeaders = new HttpHeaders();
-
-  for (const key of headers.keys()) {
-    newHeaders.set(transformFunc(key), headers.get(key));
-  }
-
-  return newHeaders;
+  return new HttpHeaders(transformObject(extractObjectFromMap(headers), transformFunc));
 }
