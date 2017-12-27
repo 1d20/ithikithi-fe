@@ -14,10 +14,6 @@ export class AuthComponent implements OnInit {
 
   constructor(private authService: AuthService, private modalService: NgbModal) {}
 
-  getBookings() {
-    this.authService.getBookings();
-  }
-
   signup(body: UserRequest = {email: 'nycheporuk@gmail.com', password: 'qwe'}) {
     // this.authService.signUp(body).subscribe(res => {
     this.authService.signUp(body);

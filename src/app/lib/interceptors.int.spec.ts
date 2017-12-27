@@ -5,6 +5,8 @@ import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { environment } from '../../environments/environment';
 
+import * as utils from './utils';
+
 const url = '123';
 const object = { 1: 'helloWorld', 2: 'hello_world', 3: 'Hello world' };
 
@@ -60,6 +62,17 @@ describe('Interceptors (Integration tests)', () => {
       injector = getTestBed();
       http = injector.get(HttpClient);
       httpMock = injector.get(HttpTestingController);
+
+      spyOn(utils, 'snakeCase').and.callFake((s) => {
+        switch (s) {
+          case 'helloWorld':
+          case 'hello_world':
+          case 'Hello world':
+            return 'hello_world';
+          default:
+            return s;
+        }
+      });
     });
 
     it ('should not change url', () => {

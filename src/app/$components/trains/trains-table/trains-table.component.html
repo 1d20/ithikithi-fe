@@ -36,9 +36,11 @@
 
   <ngx-datatable-column name="Free space">
     <ng-template let-value="value" ngx-datatable-cell-template>
-      <div *ngFor="let type of value">
-        <span [title]="type.title">{{type.letter}}</span> - <span>{{type.places}}</span>
-        <button>Pick</button>
+      <div *ngFor="let type of value" class="pick-wrapper">
+        <span class="pick-text">
+          <span [title]="type.title">{{type.letter}}</span> - <span>{{type.places}}</span>
+        </span>
+        <button class="btn btn-primary pick-button">Pick</button>
       </div>
 
     </ng-template>
