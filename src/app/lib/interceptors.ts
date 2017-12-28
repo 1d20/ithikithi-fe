@@ -20,11 +20,10 @@ export class UrlInterceptor implements HttpInterceptor {
 @Injectable()
 export class CamelCaseInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
-      const newReq = req.clone({
-        body: transformObject(req.body, snakeCase),
-        params: transformParams(req.params, snakeCase),
-        headers: transformHeaders(req.headers, snakeCase),
+    const newReq = req.clone({
+      body: transformObject(req.body, snakeCase),
+      params: transformParams(req.params, snakeCase),
+      headers: transformHeaders(req.headers, snakeCase),
     });
 
     return next.handle(newReq).map((event: HttpEvent<any>) => {
