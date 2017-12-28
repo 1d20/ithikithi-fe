@@ -44,14 +44,20 @@ export class CamelCaseInterceptor implements HttpInterceptor {
   }
 }
 
-function transformObject(object: object, transformFunc: (value: string) => string): {[name: string]: string}  {
+function transformObject(object: any, transformFunc: (value: string) => string): any  {
+  if (!object || typeof object !== 'object') {
+    return object;
+  }
+
+  if (object instanceof Array) {
+    return object.map(item => transformObject(item, transformFunc));
+  }
+
   const newObject = {};
 
   for (const key in object) {
-    if (object[key]) {
-      newObject[transformFunc(key)] = (typeof object[key] === 'object') ?
-        transformObject(object[key], transformFunc) :
-        object[key];
+    if (object.hasOwnProperty(key)) {
+      newObject[transformFunc(key)] = transformObject(object[key], transformFunc);
     }
   }
 

@@ -111,15 +111,6 @@ describe('Interceptors (Integration tests)', () => {
       });
     });
 
-    it ('should deep change body properties to snake_case', () => {
-      http.post(url, { helloWorld: { helloWorld: 1 } }).subscribe();
-
-      httpMock.expectOne(req => {
-        expect(req.body).toEqual({ hello_world: { hello_world: 1 } });
-        return true;
-      });
-    });
-
     it ('should change params properties to snake_case', () => {
       http.get(url, { params: { helloWorld: '1' } }).subscribe();
 
@@ -138,24 +129,6 @@ describe('Interceptors (Integration tests)', () => {
         expect(req.params.get('3')).toBe('Hello world');
         return true;
       });
-    });
-
-    it ('should change response properties to camel case', () => {
-      http.get(url).subscribe(response => {
-        expect(response).toEqual({ helloWorld: 1 });
-      });
-
-      const req = httpMock.expectOne(url);
-      req.flush({ hello_world: 1 });
-    });
-
-    it ('should deep change response properties to camel case', () => {
-      http.get(url).subscribe(response => {
-        expect(response).toEqual({ helloWorld: { helloWorld: 1 } });
-      });
-
-      const req = httpMock.expectOne(url);
-      req.flush({ hello_world: { hello_world: 1 } });
     });
 
     it ('should not change response property values to camel case', () => {
@@ -179,6 +152,69 @@ describe('Interceptors (Integration tests)', () => {
 
       const req = httpMock.expectOne(url);
       req.flush(object);
+    });
+
+    it ('should change response properties to camel case', () => {
+      http.get(url).subscribe(response => {
+        expect(response).toEqual({ helloWorld: 1 });
+      });
+
+      const req = httpMock.expectOne(url);
+      req.flush({ hello_world: 1 });
+    });
+
+    it ('should deep change body properties to snake_case', () => {
+      http.post(url, { helloWorld: { helloWorld: 1 } }).subscribe();
+
+      httpMock.expectOne(req => {
+        expect(req.body).toEqual({ hello_world: { hello_world: 1 } });
+        return true;
+      });
+    });
+
+    it ('should deep change response properties to camel case', () => {
+      http.get(url).subscribe(response => {
+        expect(response).toEqual({ helloWorld: { helloWorld: 1 } });
+      });
+
+      const req = httpMock.expectOne(url);
+      req.flush({ hello_world: { hello_world: 1 } });
+    });
+
+    it ('should keep arrays body', () => {
+      http.post(url, ['1', '2']).subscribe();
+
+      httpMock.expectOne(req => {
+        expect(req.body).toEqual(['1', '2']);
+        return true;
+      });
+    });
+
+    it ('should keep arrays in response', () => {
+      http.get(url).subscribe(response => {
+        expect(response).toEqual(['1', '2']);
+      });
+
+      const req = httpMock.expectOne(url);
+      req.flush(['1', '2']);
+    });
+
+    it ('should change objects in array to snake case', () => {
+      http.post(url, [{ hello_world: '1'}, { helloWorld: 2 }]).subscribe();
+
+      httpMock.expectOne(req => {
+        expect(req.body).toEqual([{ hello_world: '1' }, { hello_world: 2 }]);
+        return true;
+      });
+    });
+
+    it ('should keep arrays inside body', () => {
+      http.post(url, { 1: [1] }).subscribe();
+
+      httpMock.expectOne(req => {
+        expect(req.body).toEqual({ 1: [1] });
+        return true;
+      });
     });
   });
 });
