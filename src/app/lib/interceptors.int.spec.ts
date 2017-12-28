@@ -111,6 +111,15 @@ describe('Interceptors (Integration tests)', () => {
       });
     });
 
+    it ('should deep change body properties to snake_case', () => {
+      http.post(url, { helloWorld: { helloWorld: 1 } }).subscribe();
+
+      httpMock.expectOne(req => {
+        expect(req.body).toEqual({ hello_world: { hello_world: 1 } });
+        return true;
+      });
+    });
+
     it ('should change params properties to snake_case', () => {
       http.get(url, { params: { helloWorld: '1' } }).subscribe();
 
@@ -138,6 +147,15 @@ describe('Interceptors (Integration tests)', () => {
 
       const req = httpMock.expectOne(url);
       req.flush({ hello_world: 1 });
+    });
+
+    it ('should deep change response properties to camel case', () => {
+      http.get(url).subscribe(response => {
+        expect(response).toEqual({ helloWorld: { helloWorld: 1 } });
+      });
+
+      const req = httpMock.expectOne(url);
+      req.flush({ hello_world: { hello_world: 1 } });
     });
 
     it ('should not change response property values to camel case', () => {

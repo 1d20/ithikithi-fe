@@ -49,8 +49,9 @@ function transformObject(object: object, transformFunc: (value: string) => strin
 
   for (const key in object) {
     if (object[key]) {
-      console.log('transformFunc(key)', transformFunc(key));
-      newObject[transformFunc(key)] = object[key];
+      newObject[transformFunc(key)] = (typeof object[key] === 'object') ?
+        transformObject(object[key], transformFunc) :
+        object[key];
     }
   }
 
