@@ -73,6 +73,16 @@ describe('Interceptors (Integration tests)', () => {
             return s;
         }
       });
+      spyOn(utils, 'camelCase').and.callFake((s) => {
+        switch (s) {
+          case 'helloWorld':
+          case 'hello_world':
+          case 'Hello world':
+            return 'helloWorld';
+          default:
+            return s;
+        }
+      });
     });
 
     it ('should not change url', () => {
@@ -80,7 +90,7 @@ describe('Interceptors (Integration tests)', () => {
       http.get(testUrl).subscribe(response => expect(response).toBeTruthy());
 
       const request = httpMock.expectOne(testUrl, `Url should match "${testUrl}"`);
-      request.flush({data: 'test'});
+      request.flush({ data: 'test' });
     });
 
     it ('should change body properties to snake_case', () => {
