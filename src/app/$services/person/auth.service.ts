@@ -8,9 +8,7 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   signUp(body: UserRequest) {
-    return this.http.post('person/authenticate/signup/', body, {
-      params: { helloMan: '1' }
-    }).subscribe(res => console.log(res));
+    return this.http.post('person/authenticate/signup/', body).subscribe(res => console.log(res));
 
   }
 
