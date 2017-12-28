@@ -6,16 +6,16 @@ export interface TrainType {
 
 export interface TrainStation {
   station: string;
-  station_id: number;
+  stationId: number;
   date: number;
-  src_date: string;
+  srcDate: string;
 }
 
 export interface TrainResponse {
   category: number;
   model: number;
   num: string;
-  travel_time: string;
+  travelTime: string;
   types: TrainType[];
   till: TrainStation;
   from: TrainStation;
