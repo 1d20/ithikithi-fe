@@ -5,6 +5,8 @@ import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { environment } from '../../environments/environment';
 
+import * as utils from './utils';
+
 const url = '123';
 const object = { 1: 'helloWorld', 2: 'hello_world', 3: 'Hello world' };
 
@@ -60,6 +62,27 @@ describe('Interceptors (Integration tests)', () => {
       injector = getTestBed();
       http = injector.get(HttpClient);
       httpMock = injector.get(HttpTestingController);
+
+      spyOn(utils, 'snakeCase').and.callFake((s) => {
+        switch (s) {
+          case 'helloWorld':
+          case 'hello_world':
+          case 'Hello world':
+            return 'hello_world';
+          default:
+            return s;
+        }
+      });
+      spyOn(utils, 'camelCase').and.callFake((s) => {
+        switch (s) {
+          case 'helloWorld':
+          case 'hello_world':
+          case 'Hello world':
+            return 'helloWorld';
+          default:
+            return s;
+        }
+      });
     });
 
     it ('should not change url', () => {
@@ -67,7 +90,7 @@ describe('Interceptors (Integration tests)', () => {
       http.get(testUrl).subscribe(response => expect(response).toBeTruthy());
 
       const request = httpMock.expectOne(testUrl, `Url should match "${testUrl}"`);
-      request.flush({data: 'test'});
+      request.flush({ data: 'test' });
     });
 
     it ('should change body properties to snake_case', () => {
@@ -108,15 +131,6 @@ describe('Interceptors (Integration tests)', () => {
       });
     });
 
-    it ('should change response properties to camel case', () => {
-      http.get(url).subscribe(response => {
-        expect(response).toEqual({ helloWorld: 1 });
-      });
-
-      const req = httpMock.expectOne(url);
-      req.flush({ hello_world: 1 });
-    });
-
     it ('should not change response property values to camel case', () => {
       http.get(url).subscribe(response => expect(response).toEqual(object));
 
@@ -138,6 +152,69 @@ describe('Interceptors (Integration tests)', () => {
 
       const req = httpMock.expectOne(url);
       req.flush(object);
+    });
+
+    it ('should change response properties to camel case', () => {
+      http.get(url).subscribe(response => {
+        expect(response).toEqual({ helloWorld: 1 });
+      });
+
+      const req = httpMock.expectOne(url);
+      req.flush({ hello_world: 1 });
+    });
+
+    it ('should deep change body properties to snake_case', () => {
+      http.post(url, { helloWorld: { helloWorld: 1 } }).subscribe();
+
+      httpMock.expectOne(req => {
+        expect(req.body).toEqual({ hello_world: { hello_world: 1 } });
+        return true;
+      });
+    });
+
+    it ('should deep change response properties to camel case', () => {
+      http.get(url).subscribe(response => {
+        expect(response).toEqual({ helloWorld: { helloWorld: 1 } });
+      });
+
+      const req = httpMock.expectOne(url);
+      req.flush({ hello_world: { hello_world: 1 } });
+    });
+
+    it ('should keep arrays body', () => {
+      http.post(url, ['1', '2']).subscribe();
+
+      httpMock.expectOne(req => {
+        expect(req.body).toEqual(['1', '2']);
+        return true;
+      });
+    });
+
+    it ('should keep arrays in response', () => {
+      http.get(url).subscribe(response => {
+        expect(response).toEqual(['1', '2']);
+      });
+
+      const req = httpMock.expectOne(url);
+      req.flush(['1', '2']);
+    });
+
+    it ('should change objects in array to snake case', () => {
+      http.post(url, [{ hello_world: '1'}, { helloWorld: 2 }]).subscribe();
+
+      httpMock.expectOne(req => {
+        expect(req.body).toEqual([{ hello_world: '1' }, { hello_world: 2 }]);
+        return true;
+      });
+    });
+
+    it ('should keep arrays inside body', () => {
+      http.post(url, { 1: [1] }).subscribe();
+
+      httpMock.expectOne(req => {
+        expect(req.body).toEqual({ 1: [1] });
+        return true;
+      });
     });
   });
 });

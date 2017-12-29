@@ -5,6 +5,8 @@ import 'rxjs/add/observable/of';
 
 import { environment } from '../../environments/environment';
 
+import * as utils from './utils';
+
 const url = '123';
 let interceptor;
 let httpRequest: HttpRequest<any>;
@@ -32,6 +34,27 @@ describe('Interceptors (Unit test)', () => {
   describe('#CamelCaseInterceptor', () => {
     beforeEach(() => {
       interceptor = new CamelCaseInterceptor();
+
+      spyOn(utils, 'snakeCase').and.callFake((s) => {
+        switch (s) {
+          case 'helloWorld':
+          case 'hello_world':
+          case 'Hello world':
+            return 'hello_world';
+          default:
+            return s;
+        }
+      });
+      spyOn(utils, 'camelCase').and.callFake((s) => {
+        switch (s) {
+          case 'helloWorld':
+          case 'hello_world':
+          case 'Hello world':
+            return 'helloWorld';
+          default:
+            return s;
+        }
+      });
     });
 
     it ('should create', () => {
@@ -61,40 +84,6 @@ describe('Interceptors (Unit test)', () => {
     it ('should not change body property values to snake_case', () => {
       const httpHandler = { handle: req => Observable.of(req.body) };
       httpRequest = new HttpRequest('POST', url, { 1: 'helloWorld', 2: 'hello_world', 3: 'hello world' });
-
-      const result = interceptor.intercept(httpRequest, httpHandler);
-
-      result.subscribe(res => expect(res).toEqual({ 1: 'helloWorld', 2: 'hello_world', 3: 'hello world' }));
-    });
-
-    it ('should change params properties to snake_case', () => {
-      const httpHandler = { handle: req => Observable.of(req.body.params) };
-      httpRequest = new HttpRequest('GET', url, { params: { helloWorld: 1 } });
-
-      const result = interceptor.intercept(httpRequest, httpHandler);
-
-      result.subscribe(res => expect(res).toEqual({ hello_world: 1 }));
-    });
-
-    it ('should not change params property values to snake_case', () => {
-      const httpHandler = { handle: req => Observable.of(req.body.params) };
-      httpRequest = new HttpRequest('POST', url, { params: { 1: 'helloWorld', 2: 'hello_world', 3: 'hello world' } });
-
-      const result = interceptor.intercept(httpRequest, httpHandler);
-
-      result.subscribe(res => expect(res).toEqual({ 1: 'helloWorld', 2: 'hello_world', 3: 'hello world' }));
-    });
-
-    it ('should change response properties to camel case', () => {
-      const httpHandler = { handle: req => Observable.of({ hello_world: 1 }) };
-
-      const result = interceptor.intercept(httpRequest, httpHandler);
-
-      result.subscribe(res => expect(res).toEqual({ helloWorld: 1 }));
-    });
-
-    it ('should not change response property values to camel case', () => {
-      const httpHandler = { handle: req => Observable.of({ 1: 'helloWorld', 2: 'hello_world', 3: 'hello world' }) };
 
       const result = interceptor.intercept(httpRequest, httpHandler);
 

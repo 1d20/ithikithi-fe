@@ -1,10 +1,10 @@
 export interface PersonResponse {
   id: number;
-  first_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  student_card_number: string | null;
-  user_id: number | null;
+  studentCardNumber: string | null;
+  userId: number | null;
 }
 
 export interface UserRequest {
